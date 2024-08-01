@@ -1,5 +1,6 @@
 package com.example.myfinancesapp.ui.register
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,12 +23,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.myfinancesapp.model.Routes
 import com.example.myfinancesapp.ui.login.PasswordInvisibleIcon
 import com.example.myfinancesapp.ui.login.PasswordVisibleIcon
 import com.example.myfinancesapp.ui.theme.MyFinancesAPPTheme
 
 @Composable
-fun RegisterView(registerViewModel: RegisterVM) {
+fun RegisterView(registerViewModel: RegisterVM, navigationController: NavHostController) {
     val email by registerViewModel.email.observeAsState(initial = "")
     val password by registerViewModel.password.observeAsState(initial = "")
     val repeatPassword by registerViewModel.repeatPassword.observeAsState(initial = "")
@@ -38,7 +41,7 @@ fun RegisterView(registerViewModel: RegisterVM) {
     val isRepeatPasswordVisible by registerViewModel.isRepeatPasswordVisible.observeAsState(initial = true)
     val isSamePassword by registerViewModel.isSamePassword.observeAsState(initial = true)
 
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background), verticalArrangement = Arrangement.Center) {
         FirstNameTextField(text = firstName, onTextChange = {
             registerViewModel.onRegisterChanged(
                 email = email,
@@ -100,7 +103,7 @@ fun RegisterView(registerViewModel: RegisterVM) {
             }
         )
         RegisterButton(registerEnabled = isRegisterEnabled, onRegisterButtonClicked = { registerViewModel.onRegisterButtonClicked() })
-        LoginButton(onLoginButtonClicked = {})
+        LoginButton(navigationController)
     }
 }
 
@@ -234,17 +237,10 @@ private fun RegisterButton(registerEnabled: Boolean, onRegisterButtonClicked: ()
 }
 
 @Composable
-private fun LoginButton(onLoginButtonClicked: () -> Unit) {
-    OutlinedButton(onClick = { onLoginButtonClicked() }, modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+private fun LoginButton(navigationController: NavHostController) {
+    OutlinedButton(onClick = { navigationController.popBackStack() }, modifier = Modifier.fillMaxWidth().padding(8.dp)) {
         Text(text = "Ya tengo una cuenta")
     }
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    MyFinancesAPPTheme {
-        RegisterView(RegisterVM())
-    }
-}

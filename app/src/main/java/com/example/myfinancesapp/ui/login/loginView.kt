@@ -1,5 +1,6 @@
 package com.example.myfinancesapp.ui.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,18 +30,20 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.myfinancesapp.R
+import com.example.myfinancesapp.model.Routes
 import com.example.myfinancesapp.ui.theme.MyFinancesAPPTheme
 
 
 @Composable
-fun LoginView(loginViewModel: LoginVM) {
+fun LoginView(loginViewModel: LoginVM, navigationController: NavHostController) {
     val email by loginViewModel.email.observeAsState(initial = "")
     val password by loginViewModel.password.observeAsState(initial = "")
     val isPasswordVisible by loginViewModel.isPasswordVisible.observeAsState(initial = true)
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(initial = false)
-
-    Box(modifier = Modifier.fillMaxSize()) {
+    
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
             EmailTextField(
                 text = email
@@ -53,12 +56,14 @@ fun LoginView(loginViewModel: LoginVM) {
             LoginButton(
                 loginEnabled = isLoginEnabled,
                 onLoginButtonClicked = { loginViewModel.onLoginButtonClicked() })
-            RegisterButton(onRegisterButtonClicked = {})
+            RegisterButton(navigationController)
 
 
         }
         ForgotPasswordButton(modifier = Modifier.align(Alignment.BottomCenter), onForgotPasswordButtonClicked = {})
     }
+
+
 }
 
 @Composable
@@ -173,8 +178,8 @@ private fun LoginButton(loginEnabled: Boolean, onLoginButtonClicked: () -> Unit)
 }
 
 @Composable
-private fun RegisterButton(onRegisterButtonClicked: () -> Unit) {
-    OutlinedButton(onClick = {}, modifier = Modifier
+private fun RegisterButton(navigationController: NavHostController) {
+    OutlinedButton(onClick = { navigationController.navigate(Routes.Register.route)}, modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)
     ) {
@@ -194,10 +199,3 @@ private fun ForgotPasswordButton(modifier:Modifier, onForgotPasswordButtonClicke
     }
 }
 
-//@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    MyFinancesAPPTheme {
-        LoginView(LoginVM())
-    }
-}
