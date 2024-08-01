@@ -37,7 +37,7 @@ import com.example.myfinancesapp.ui.theme.MyFinancesAPPTheme
 fun LoginView(loginViewModel: LoginVM) {
     val email by loginViewModel.email.observeAsState(initial = "")
     val password by loginViewModel.password.observeAsState(initial = "")
-    val isPasswordVisible by loginViewModel.isPasswordVisible.observeAsState(initial = false)
+    val isPasswordVisible by loginViewModel.isPasswordVisible.observeAsState(initial = true)
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(initial = false)
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -161,7 +161,7 @@ fun PasswordInvisibleIcon(textVisible: Boolean, onPasswordVisibilityChange: (Boo
 }
 
 @Composable
-fun LoginButton(loginEnabled: Boolean, onLoginButtonClicked: () -> Unit) {
+private fun LoginButton(loginEnabled: Boolean, onLoginButtonClicked: () -> Unit) {
     Button(
         onClick = { onLoginButtonClicked() }, enabled = loginEnabled, modifier = Modifier
             .fillMaxWidth()
@@ -173,7 +173,7 @@ fun LoginButton(loginEnabled: Boolean, onLoginButtonClicked: () -> Unit) {
 }
 
 @Composable
-fun RegisterButton(onRegisterButtonClicked: () -> Unit) {
+private fun RegisterButton(onRegisterButtonClicked: () -> Unit) {
     OutlinedButton(onClick = {}, modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)
@@ -184,7 +184,7 @@ fun RegisterButton(onRegisterButtonClicked: () -> Unit) {
 }
 
 @Composable
-fun ForgotPasswordButton(modifier:Modifier, onForgotPasswordButtonClicked: () -> Unit) {
+private fun ForgotPasswordButton(modifier:Modifier, onForgotPasswordButtonClicked: () -> Unit) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         Text(text = "¿Has olvidado tu contraseña?", modifier = Modifier.padding(8.dp), color = MaterialTheme.colorScheme.secondary)
         Text(text = "Haz clic aquí", modifier = Modifier
