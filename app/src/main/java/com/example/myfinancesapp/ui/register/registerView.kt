@@ -21,13 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.myfinancesapp.model.Routes
 import com.example.myfinancesapp.ui.login.PasswordInvisibleIcon
 import com.example.myfinancesapp.ui.login.PasswordVisibleIcon
-import com.example.myfinancesapp.ui.theme.MyFinancesAPPTheme
 
 @Composable
 fun RegisterView(registerViewModel: RegisterVM, navigationController: NavHostController) {
@@ -108,7 +105,7 @@ fun RegisterView(registerViewModel: RegisterVM, navigationController: NavHostCon
 }
 
 @Composable
-fun FirstNameTextField(text: String, onTextChange: (String) -> Unit) {
+private fun FirstNameTextField(text: String, onTextChange: (String) -> Unit) {
     RegisterTextField(
         text = text,
         label = "Nombre",
@@ -118,7 +115,7 @@ fun FirstNameTextField(text: String, onTextChange: (String) -> Unit) {
 }
 
 @Composable
-fun LastNameTextField(text: String, onTextChange: (String) -> Unit){
+private fun LastNameTextField(text: String, onTextChange: (String) -> Unit){
     RegisterTextField(
         text = text,
         label = "Apellido",
@@ -128,7 +125,7 @@ fun LastNameTextField(text: String, onTextChange: (String) -> Unit){
 }
 
 @Composable
-fun EmailTextField(text: String, onTextChange: (String) -> Unit) {
+private fun EmailTextField(text: String, onTextChange: (String) -> Unit) {
     RegisterTextField(
         text = text,
         label = "Correo electrónico",
@@ -138,7 +135,7 @@ fun EmailTextField(text: String, onTextChange: (String) -> Unit) {
 }
 
 @Composable
-fun PasswordTextField(
+private fun PasswordTextField(
     text: String,
     textVisible: Boolean,
     onTextChange: (String) -> Unit,
@@ -156,7 +153,7 @@ fun PasswordTextField(
 }
 
 @Composable
-fun RepeatPasswordTextField(
+private fun RepeatPasswordTextField(
     text: String,
     textVisible: Boolean,
     isSamePassword: Boolean,
@@ -176,7 +173,7 @@ fun RepeatPasswordTextField(
 }
 
 @Composable
-fun RegisterTextField(
+private fun RegisterTextField(
     text: String,
     label: String,
     modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp),

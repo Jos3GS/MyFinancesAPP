@@ -8,6 +8,7 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -16,6 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myfinancesapp.model.Routes
+import com.example.myfinancesapp.ui.forgotPassword.ForgotPasswordVM
+import com.example.myfinancesapp.ui.forgotPassword.ForgotPasswordView
+import com.example.myfinancesapp.ui.home.HomeVM
+import com.example.myfinancesapp.ui.home.HomeView
 import com.example.myfinancesapp.ui.login.LoginVM
 import com.example.myfinancesapp.ui.login.LoginView
 import com.example.myfinancesapp.ui.register.RegisterVM
@@ -29,10 +34,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyFinancesAPPTheme {
                 val navigationController = rememberNavController()
-                var backPressedTime by remember { mutableStateOf(0L) }
+                var backPressedTime by remember { mutableLongStateOf(0L) }
                 NavHost(navController = navigationController, startDestination = Routes.Login.route){
                     composable(route = Routes.Login.route) {LoginView(loginViewModel = LoginVM(), navigationController = navigationController)}
                     composable(route = Routes.Register.route) {RegisterView(registerViewModel = RegisterVM(), navigationController = navigationController)}
+                    composable(route = Routes.ForgotPassword.route) {ForgotPasswordView(forgotPasswordViewModel = ForgotPasswordVM(), navigationController = navigationController)}
+                    composable(route = Routes.Home.route) {HomeView(homeViewModel = HomeVM())}
                 }
 
                 BackHandler (enabled = true) {

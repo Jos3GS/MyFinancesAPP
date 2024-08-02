@@ -11,12 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,15 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.myfinancesapp.R
 import com.example.myfinancesapp.model.Routes
-import com.example.myfinancesapp.ui.theme.MyFinancesAPPTheme
 
 
 @Composable
@@ -43,7 +42,9 @@ fun LoginView(loginViewModel: LoginVM, navigationController: NavHostController) 
     val isPasswordVisible by loginViewModel.isPasswordVisible.observeAsState(initial = true)
     val isLoginEnabled by loginViewModel.isLoginEnabled.observeAsState(initial = false)
     
-    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
             EmailTextField(
                 text = email
@@ -57,17 +58,26 @@ fun LoginView(loginViewModel: LoginVM, navigationController: NavHostController) 
                 loginEnabled = isLoginEnabled,
                 onLoginButtonClicked = { loginViewModel.onLoginButtonClicked() })
             RegisterButton(navigationController)
+            HorizontalDivider()
+            LocalLoginButton(navigationController)
 
 
         }
-        ForgotPasswordButton(modifier = Modifier.align(Alignment.BottomCenter), onForgotPasswordButtonClicked = {})
+        ForgotPasswordButton(modifier = Modifier.align(Alignment.BottomCenter), navigationController = navigationController)
     }
 
 
 }
 
 @Composable
-fun EmailTextField(
+private fun LocalLoginButton(navigationController: NavHostController){
+    OutlinedButton(onClick = { navigationController.navigate(Routes.Home.route) }, modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+        Text(text = "Usar sin conexión a internet")
+    }
+}
+
+@Composable
+private fun EmailTextField(
     text: String,
     onTextChange: (String) -> Unit
 ) {
@@ -83,7 +93,7 @@ fun EmailTextField(
 }
 
 @Composable
-fun PasswordTextField(
+private fun PasswordTextField(
     text: String,
     textVisible: Boolean,
     onTextChange: (String) -> Unit,
@@ -106,7 +116,7 @@ fun PasswordTextField(
 }
 
 @Composable
-fun LoginTextField(
+private fun LoginTextField(
     text: String,
     label: String,
     modifier: Modifier = Modifier.fillMaxWidth(),
@@ -189,12 +199,12 @@ private fun RegisterButton(navigationController: NavHostController) {
 }
 
 @Composable
-private fun ForgotPasswordButton(modifier:Modifier, onForgotPasswordButtonClicked: () -> Unit) {
+private fun ForgotPasswordButton(modifier:Modifier, navigationController: NavHostController) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         Text(text = "¿Has olvidado tu contraseña?", modifier = Modifier.padding(8.dp), color = MaterialTheme.colorScheme.secondary)
         Text(text = "Haz clic aquí", modifier = Modifier
             .padding(8.dp)
-            .clickable { onForgotPasswordButtonClicked() },
+            .clickable { navigationController.navigate(Routes.ForgotPassword.route) },
             color = MaterialTheme.colorScheme.primary)
     }
 }
